@@ -30,7 +30,7 @@ const Keypad = ({ onKeyPress }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onKeyPress]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center mt-8 space-y-2">
