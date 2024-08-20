@@ -12,12 +12,19 @@ const Keypad = ({ onKeyPress }) => {
   useEffect(() => {
     const handleKeyDown = (event) => {
       const { key } = event;
-      if (key === 'Enter') {
-        onKeyPress('ENTER');
-      } else if (key === 'Backspace') {
-        onKeyPress('BACKSPACE');
-      } else if (key.length === 1) {
-        onKeyPress(key.toUpperCase());
+      const isNumber = (key) => key >= 0 && key <= 9;
+      const isChinese = /[\u3100-\u312F\u31A0-\u31BF]/.test(key);
+
+      if (isNumber(key) || isChinese) {
+        event.preventDefault;
+      } else {
+        if (key === 'Enter') {
+          onKeyPress('ENTER');
+        } else if (key === 'Backspace') {
+          onKeyPress('BACKSPACE');
+        } else if (key.length === 1) {
+          onKeyPress(key.toUpperCase());
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
