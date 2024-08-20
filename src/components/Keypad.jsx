@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const Keypad = ({ onKeyPress }) => {
@@ -38,8 +37,9 @@ const Keypad = ({ onKeyPress }) => {
       {letters.map((row, rowIndex) => (
         <div key={rowIndex} className="flex space-x-2">
           {row.map((letter) => (
-            <StyledButton
+            <button
               key={letter}
+              className="bg-gray-300 text-black font-bold p-2 rounded w-12 h-12 flex items-center justify-center"
               onClick={() => {
                 if (letter === 'ENTER') {
                   onKeyPress('ENTER');
@@ -51,7 +51,7 @@ const Keypad = ({ onKeyPress }) => {
               }}
             >
               {letter}
-            </StyledButton>
+            </button>
           ))}
         </div>
       ))}
@@ -64,16 +64,3 @@ Keypad.propTypes = {
 };
 
 export default Keypad;
-
-const StyledButton = styled.button`
-  background-color: #d3d6da;
-  color: black;
-  font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
