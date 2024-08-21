@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { reducer, initialState } from './reducer/reducer';
+import { reducer, initialState } from './reducer/gameReducer';
 import Grid from './components/Grid';
 import Keypad from './components/Keypad';
 
