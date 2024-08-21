@@ -11,34 +11,24 @@ const Grid = ({ input, guesses }) => {
           <div key={rowIndex} className="grid grid-cols-5 gap-2">
             {Array.from({ length: columns }).map((_, colIndex) => {
               let letter = '';
-              let isLetterCorrect = '';
+              let letterState = '';
 
               if (rowIndex < guesses.length) {
                 letter = guesses[rowIndex].word[colIndex] || '';
-                isLetterCorrect = guesses[rowIndex].result[colIndex] || '';
+                letterState = guesses[rowIndex].result[colIndex] || '';
               } else if (rowIndex === guesses.length) {
                 letter = input[colIndex] || '';
               }
-
+              const statesClasses = {
+                correct: 'bg-cyan-600 text-white',
+                misplaced: 'bg-amber-500 text-white',
+                incorrect: 'bg-zinc-500 text-white',
+              };
               return (
                 <div
                   key={colIndex}
                   className={`border-2 border-gray-300 w-16 h-16 flex items-center justify-center text-xl font-bold
-                    ${
-                      isLetterCorrect === 'correct'
-                        ? 'bg-cyan-600 text-white'
-                        : ''
-                    }
-                    ${
-                      isLetterCorrect === 'misplaced'
-                        ? 'bg-amber-500 text-white'
-                        : ''
-                    }
-                    ${
-                      isLetterCorrect === 'incorrect'
-                        ? 'bg-zinc-500 text-white'
-                        : ''
-                    }
+                   ${statesClasses[letterState]}
                   `}
                 >
                   {letter}
