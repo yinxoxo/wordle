@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 import { reducer, initialState } from './reducer/gameReducer';
 import Grid from './components/Grid';
 import Keypad from './components/Keypad';
@@ -6,15 +6,18 @@ import Keypad from './components/Keypad';
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleKeyPress = (letter) => {
-    if (letter === 'ENTER') {
-      dispatch({ type: 'CHECK_ANSWER' });
-    } else if (letter === 'BACKSPACE') {
-      dispatch({ type: 'REMOVE_LETTER' });
-    } else {
-      dispatch({ type: 'ADD_LETTER', letter });
-    }
-  };
+  const handleKeyPress = useCallback(
+    (letter) => {
+      if (letter === 'ENTER') {
+        dispatch({ type: 'CHECK_ANSWER' });
+      } else if (letter === 'BACKSPACE') {
+        dispatch({ type: 'REMOVE_LETTER' });
+      } else {
+        dispatch({ type: 'ADD_LETTER', letter });
+      }
+    },
+    [dispatch]
+  );
 
   const handleReset = () => {
     dispatch({ type: 'RESET' });
