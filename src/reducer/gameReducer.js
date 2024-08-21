@@ -17,10 +17,17 @@ const validateWord = (guess, answer) => {
       result.push('incorrect');
     }
   }
+  console.log('Validation result:', result);
   return result;
 };
 
 export const reducer = (state, action) => {
+  if (action.type === 'RESET') {
+    return initialState;
+  }
+  if (state.message === 'You win!' || state.message === 'You lose!') {
+    return state;
+  }
   switch (action.type) {
     case 'ADD_LETTER':
       if (state.currentWord.length < 5) {
@@ -41,7 +48,7 @@ export const reducer = (state, action) => {
       if (state.currentWord.length === 5) {
         const result = validateWord(state.currentWord, state.answer);
         const isCorrect = state.answer === state.currentWord;
-        console.log('Validation result:', result);
+        console.log('Validation result in reducer:', result);
 
         let message = '';
 
@@ -62,9 +69,6 @@ export const reducer = (state, action) => {
         };
       }
       return state;
-
-    case 'RESET':
-      return initialState;
 
     default:
       return state;
