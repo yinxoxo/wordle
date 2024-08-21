@@ -1,7 +1,7 @@
 export const initialState = {
   currentWord: '',
   previousGuesses: [],
-  answer: 'REACT',
+  answer: '',
   message: '',
 };
 
@@ -23,12 +23,17 @@ const validateWord = (guess, answer) => {
 
 export const reducer = (state, action) => {
   if (action.type === 'RESET') {
-    return initialState;
+    return { ...initialState, answer: state.answer };
   }
   if (state.message === 'You win!' || state.message === 'You lose!') {
     return state;
   }
   switch (action.type) {
+    case 'SET_ANSWER':
+      return {
+        ...state,
+        answer: action.word,
+      };
     case 'ADD_LETTER':
       if (state.currentWord.length < 5) {
         return {

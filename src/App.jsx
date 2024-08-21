@@ -1,10 +1,25 @@
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { reducer, initialState } from './reducer/gameReducer';
+import { useQuery } from '@tanstack/react-query';
+import { fetchWord } from './firebase/fetchWord';
 import Grid from './components/Grid';
 import Keypad from './components/Keypad';
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { data } = useQuery({ queryKey: ['words'], queryFn: fetchWord });
+
+  const getRandomWord = useCallback(() => {
+    if (data) {
+      const randomWord = data[Math.floor(Math.random() * data.length)];
+      console.log('useEffect', randomWord);
+      dispatch({ type: 'SET_ANSWER', word: randomWord });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    getRandomWord();
+  }, [getRandomWord]);
 
   const handleKeyPress = useCallback(
     (letter) => {
@@ -21,7 +36,14 @@ function App() {
 
   const handleReset = () => {
     dispatch({ type: 'RESET' });
+    setTimeout(() => {
+      getRandomWord();
+    }, 0);
   };
+
+  useEffect(() => {
+    console.log('New answer after reset:', state.answer);
+  }, [state.answer]);
 
   return (
     <div className="relative">
