@@ -11,26 +11,23 @@ const Keypad = ({ onKeyPress }) => {
   useEffect(() => {
     const handleKeyDown = (event) => {
       const { key } = event;
-      const isNumber = (key) => key >= 0 && key <= 9;
-      const isChinese = /[\u3100-\u312F\u31A0-\u31BF]/.test(key);
-
-      if (isNumber(key) || isChinese) {
-        event.preventDefault;
+      if (key === 'Enter') {
+        onKeyPress('ENTER');
+      } else if (key === 'Backspace') {
+        onKeyPress('BACKSPACE');
       } else {
-        if (key === 'Enter') {
-          onKeyPress('ENTER');
-        } else if (key === 'Backspace') {
-          onKeyPress('BACKSPACE');
-        } else if (key.length === 1) {
+        const isEnglishLetter = /^[a-zA-Z]$/.test(key);
+        if (isEnglishLetter) {
           onKeyPress(key.toUpperCase());
         }
       }
     };
+    console.log('useEffect');
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [onKeyPress]);
 
   return (
     <div className="flex flex-col items-center mt-8 space-y-2">
